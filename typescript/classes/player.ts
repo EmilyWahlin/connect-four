@@ -1,12 +1,12 @@
 export default class Player {
   name: string;
-  token: "x" | "O"
+  token: "X" | "O"
 
 
 
-  constructor (name: string,token: "x" | "O") {
+  constructor (name: string,token: "X" | "O") {
     this.name = name;
     this.token = token;
-    
+
   }
 }
