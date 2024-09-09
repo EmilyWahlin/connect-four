@@ -7,8 +7,8 @@ export default class Board {
     this.rows = rows;
     this.columns = columns;
 
-    // Initialize the board with empty strings
-    this.board = [...new Array(this.rows)].map(() => [...new Array(this.columns)].map(() => ''));
+    // Initialize the board with spaces instead of empty strings
+    this.board = [...new Array(this.rows)].map(() => [...new Array(this.columns)].map(() => ' '));
   }
 
   // Method to display the board in the terminal
@@ -23,4 +23,3 @@ export default class Board {
     );
   }
 }
-
