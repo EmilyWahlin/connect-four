@@ -1,5 +1,5 @@
-import Board from "./board.js";
-import WinCheck from "./winCheck.js";
+import Board from "./Board.js";
+import WinCheck from "./WinCheck.js";
 
 export default class MakeMove {
   board: Board;

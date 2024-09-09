@@ -1,6 +1,6 @@
-import Board from "./board.js";
-import MakeMove from "./makeMove.js";
-import Player from "./player.js";
+import Board from "./Board.js";
+import MakeMove from "./MakeMove.js";
+import Player from "./Player.js";
 import prompt from "../helpers/prompt.js";
 
 export default class Game {
