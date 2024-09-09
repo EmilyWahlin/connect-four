@@ -1,6 +1,5 @@
 import Board from "./board.js";
-import winCheck from "./winCheck.js";
-
+import WinCheck from "./winCheck.js";
 
 export default class MakeMove {
   board: Board;
@@ -40,11 +39,11 @@ export default class MakeMove {
     // Ensure the column is not full
     if (row === -1) return false;
 
-    // Make the move by placing the player's token in the matrix
+    // Place the player's token in the selected column
     this.board.board[row][column] = token;
 
     // Check for a winner or a draw after making the move
-    const winChecker = new winCheck(this.board);
+    const winChecker = new WinCheck(this.board);
     const winnerCheckResult = winChecker.checkForWin();
 
     if (winnerCheckResult) {

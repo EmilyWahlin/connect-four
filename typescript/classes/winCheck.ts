@@ -1,46 +1,59 @@
 import Board from "./board.js";
 
-export default class winCheck {
+export default class WinCheck {
   board: Board;
 
-
   constructor(board: Board) {
-    this.board = board
+    this.board = board;
   }
 
   checkForWin(): string | boolean {
-    // gB - short for gameboard
-    const gB = this.board.board;
-    let offsets = [
-            [[0, 0], [0, 1], [0, 2]],  // horizontal win
-            [[0, 0], [1, 0], [2, 0]],  // vertical win
-            [[0, 0], [1, 1], [2, 2]],  // diagonal 1 win
-            [[0, 0], [1, -1], [2, -2]] // diagonal 2 win
-        ];
-  for (let token of ['X', 'O']) {
-      // Traverse the board
-      for (let r = 0; r < gB.length; r++) {
-        for (let c = 0; c < gB[0].length; c++) {
-          // Check each win pattern (horizontal, vertical, diagonal1, diagonal2)
-          for (let winType of offsets) {
-            let tokensInCombo = '';
-            // Check each direction within the current pattern
-            for (let [ro, co] of winType) {
-              const newRow = r + ro;
-              const newCol = c + co;
-              // Ensure we're within the bounds of the board
-              if (newRow >= 0 && newRow < gB.length && newCol >= 0 && newCol < gB[0].length) {
-                tokensInCombo += gB[newRow][newCol];
-              }
+    const gB = this.board.board;  // game board grid
+
+    const directions = [
+      { r: 0, c: 1 },  // horizontal
+      { r: 1, c: 0 },  // vertical
+      { r: 1, c: 1 },  // diagonal down-right
+      { r: 1, c: -1 }  // diagonal down-left
+    ];
+
+    // Check for win by looping through each cell in the grid
+    for (let r = 0; r < gB.length; r++) {
+      for (let c = 0; c < gB[0].length; c++) {
+        if (gB[r][c] === ' ') continue;  // Skip empty cells
+
+        const currentToken = gB[r][c];
+
+        // Check in all directions for 4 consecutive tokens
+        for (let { r: dr, c: dc } of directions) {
+          let count = 1;
+
+          for (let i = 1; i < 4; i++) {
+            const newRow = r + dr * i;
+            const newCol = c + dc * i;
+
+            // Ensure we're within bounds and matching the current player's token
+            if (
+              newRow >= 0 &&
+              newRow < gB.length &&
+              newCol >= 0 &&
+              newCol < gB[0].length &&
+              gB[newRow][newCol] === currentToken
+            ) {
+              count++;
+            } else {
+              break;
             }
-            // If we find four consecutive tokens, return the winner
-            if (tokensInCombo === token.repeat(4)) {
-              return token;  // Return 'X' or 'O'
+
+            // If 4 consecutive tokens are found, return the winner
+            if (count === 4) {
+              return currentToken;  // Return 'X' or 'O'
             }
           }
         }
       }
     }
+
     return false;  // No winner found
   }
 }
