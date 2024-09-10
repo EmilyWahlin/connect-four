@@ -30,7 +30,7 @@ export default class MakeMove {
     // Find the first available row in the selected column
     let row = -1;
     for (let r = this.board.rows - 1; r >= 0; r--) {
-  if (this.board.board[r][column] === ' ') {  // Checking for a space, not an empty string
+  if (this.board.board[r][column] === ' ') {  
     row = r;
     break;
   }
