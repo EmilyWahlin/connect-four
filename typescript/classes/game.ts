@@ -6,8 +6,8 @@ import prompt from "../helpers/prompt.js";
 export default class Game {
   board: Board;
   makeMove: MakeMove;
-  playerX!: Player;  // Use non-null assertion
-  playerO!: Player;  // Use non-null assertion
+  playerX!: Player;
+  playerO!: Player;
 
   constructor() {
     while (true) {
@@ -29,9 +29,21 @@ export default class Game {
   createPlayers() {
     console.clear();
     console.log('Connect Four!\n');
-    this.playerX = new Player(prompt('Player X\'s name: '), 'X');
-    this.playerO = new Player(prompt('Player O\'s name: '), 'O');
+    this.playerX = new Player(prompt('Player X\'s name (enter "computer" for AI): '), 'X');
+    this.playerO = new Player(prompt('Player O\'s name (enter "computer" for AI): '), 'O');
   }
+
+  // method for handling computer moves
+  makeComputerMove(): void {
+    let validMove = false;
+
+    // Loop until the computer makes a valid move
+    while (!validMove) {
+      let randomColumn = Math.floor(Math.random() * this.board.columns); // Pick a random column
+      validMove = this.makeMove.makeMove(this.makeMove.currentPlayerToken, randomColumn); // Attempt move
+    }
+  }
+
 
   startGameLoop() {
     // Game loop - runs until the game is over
@@ -43,26 +55,28 @@ export default class Game {
         ? this.playerX
         : this.playerO;
 
-      let move = prompt(`Your move ${currentPlayer.token} (${currentPlayer.name}) - enter column (1-${this.board.columns}): `);
+      if (currentPlayer.name === 'computer') {
+        // If it's the computer's turn
+        console.log(`Computer (${currentPlayer.token}) is making a move...`);
+        this.makeComputerMove(); // Call computer move logic
+      } else {
+        // Human player's turn
+        let move = prompt(`Your move ${currentPlayer.token} (${currentPlayer.name}) - enter column (1-${this.board.columns}): `);
+        let column = +move.trim() - 1;
+        let moveSuccess = this.makeMove.makeMove(currentPlayer.token, column);
 
-      // Convert column input to zero-based index
-      let column = +move.trim() - 1;
-
-      // Try to make the move via MakeMove
-      let moveSuccess = this.makeMove.makeMove(currentPlayer.token, column);
-
-      if (!moveSuccess) {
-        console.log('Invalid move, please try again.');
+        if (!moveSuccess) {
+          console.log('Invalid move, please try again.');
+        }
       }
     }
   }
 
   whoHasWonOnGameOver() {
-    // The game is over, announce the result
     console.clear();
-    this.board.displayBoard();  // Display the final board state
+    this.board.displayBoard(); // Display the final board
 
-    if (this.makeMove.winner) {  // Use MakeMove to determine the winner
+    if (this.makeMove.winner) {
       let winningPlayer = this.makeMove.winner === 'X' ? this.playerX : this.playerO;
       console.log(`Woohoo! ${winningPlayer.token}: ${winningPlayer.name}, you won!`);
     } else if (this.makeMove.isADraw) {
