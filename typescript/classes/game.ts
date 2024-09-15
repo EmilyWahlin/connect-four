@@ -11,17 +11,17 @@ export default class Game {
 
   constructor() {
     while (true) {
-      this.createPlayers();      // Create players
-      this.board = new Board();  // Initialize a new board
-      this.makeMove = new MakeMove(this.board);  // Initialize MakeMove with the new board
+      this.createPlayers(); // Create players (human/computer)
+      this.board = new Board(); // Initialize a new board
+      this.makeMove = new MakeMove(this.board); // Initialize MakeMove with the new board
 
-      this.startGameLoop();      // Start the game loop
-      this.whoHasWonOnGameOver();  // Check who won and display the result
+      this.startGameLoop(); // Start the game loop
+      this.whoHasWonOnGameOver(); // Check who won and display the result
 
       console.log('');
       let playAgain = prompt('Do you want to play again? (yes/no)? ');
       if (playAgain.toLowerCase() !== 'yes') {
-        break;  // End the loop if the user doesn't want to play again
+        break; // End the loop if the user doesn't want to play again
       }
     }
   }
@@ -33,7 +33,7 @@ export default class Game {
     this.playerO = new Player(prompt('Player O\'s name (enter "computer" for AI): '), 'O');
   }
 
-  // method for handling computer moves
+  // The new method for handling computer moves
   makeComputerMove(): void {
     let validMove = false;
 
@@ -44,12 +44,10 @@ export default class Game {
     }
   }
 
-
   startGameLoop() {
-    // Game loop - runs until the game is over
-    while (!this.makeMove.gameOver) {  // Now checks gameOver from MakeMove
+    while (!this.makeMove.gameOver) { // Loop until game is over
       console.clear();
-      this.board.displayBoard();  // Assuming displayBoard renders the current board
+      this.board.displayBoard(); // Show current board state
 
       let currentPlayer = this.makeMove.currentPlayerToken === 'X'
         ? this.playerX
