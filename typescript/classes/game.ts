@@ -35,7 +35,7 @@ export default class Game {
 
 
   makeComputerMove() {
-    // Add a delay 
+    // Add a delay
     console.log("Computer is thinking...");
     this.delay(750); // Delay
     let validMove = false;
@@ -43,7 +43,8 @@ export default class Game {
     // Loop until the computer makes a valid move
     while (!validMove) {
       let randomColumn = Math.floor(Math.random() * this.board.columns); // Pick a random column
-      validMove = this.makeMove.makeMove(this.makeMove.currentPlayerToken, randomColumn); // Attempt move
+      let result = this.makeMove.makeMove(this.makeMove.currentPlayerToken, randomColumn);
+      validMove = result.success; // Assign the boolean value
     }
   }
 
@@ -70,24 +71,35 @@ export default class Game {
         this.makeComputerMove(); // Call computer move logic with delay
       } else {
         // Human player's turn
-        let move = prompt(`Your move ${currentPlayer.token} (${currentPlayer.name}) - enter column (1-${this.board.columns}): `);
+        let move = prompt(`Your move ${currentPlayer.name} (${currentPlayer.token}) - enter column (1-${this.board.columns}): `);
         let column = +move.trim() - 1;
-        let moveSuccess = this.makeMove.makeMove(currentPlayer.token, column);
 
-        if (!moveSuccess) {
-          console.log('Invalid move, please try again.');
+        // Attempt the move and get the result
+        let moveResult = this.makeMove.makeMove(currentPlayer.token, column);
+
+        if (!moveResult.success) {
+          // Handle invalid moves based on the reason provided
+          if (moveResult.reason === 'Invalid column') {
+            console.log('Invalid move, try again.'); // Invalid column
+          } else if (moveResult.reason === 'Column full') {
+            console.log('Column full, try again.'); // Column full
+          } else if (moveResult.reason === 'Game over') {
+            console.log('Game is already over.'); // Game over
+          } else if (moveResult.reason === 'Not your turn') {
+            console.log('It\'s not your turn.'); // Not the player's turn
+          }
+          prompt('Press Enter to continue...'); // Pause to let player see the message
         }
       }
     }
   }
-
   whoHasWonOnGameOver() {
     console.clear();
     this.board.displayBoard(); // Display the final board
 
     if (this.makeMove.winner) {
       let winningPlayer = this.makeMove.winner === 'X' ? this.playerX : this.playerO;
-      console.log(`Woohoo! ${winningPlayer.token}: ${winningPlayer.name}, you won!`);
+      console.log(`Woohoo! ${winningPlayer.name} (${winningPlayer.token}), you won!`);
     } else if (this.makeMove.isADraw) {
       console.log('It\'s a tie!');
     }
