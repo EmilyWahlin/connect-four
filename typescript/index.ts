@@ -1,3 +1,3 @@
-import Game from "./classes/Game.js";
+import Game from "./classes/game.js";
 
  new Game();

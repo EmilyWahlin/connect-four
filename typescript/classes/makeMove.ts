@@ -1,5 +1,5 @@
-import Board from "./Board.js";
-import WinCheck from "./WinCheck.js";
+import Board from "./board.js";
+import WinCheck from "./winCheck.js";
 
 
   // Method to make a move

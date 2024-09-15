@@ -1,4 +1,4 @@
-import Board from "./Board.js";
+import Board from "./board.js";
 
 export default class WinCheck {
   board: Board;
