@@ -35,7 +35,7 @@ export default class Game {
 
 
   makeComputerMove() {
-    // Add a delay 
+    // Add a delay
     console.log("Computer is thinking...");
     this.delay(750); // Delay
     let validMove = false;
@@ -70,7 +70,7 @@ export default class Game {
         this.makeComputerMove(); // Call computer move logic with delay
       } else {
         // Human player's turn
-        let move = prompt(`Your move ${currentPlayer.token} (${currentPlayer.name}) - enter column (1-${this.board.columns}): `);
+        let move = prompt(`Your move ${currentPlayer.name} (${currentPlayer.token}) - enter column (1-${this.board.columns}): `);
         let column = +move.trim() - 1;
         let moveSuccess = this.makeMove.makeMove(currentPlayer.token, column);
 
@@ -87,7 +87,7 @@ export default class Game {
 
     if (this.makeMove.winner) {
       let winningPlayer = this.makeMove.winner === 'X' ? this.playerX : this.playerO;
-      console.log(`Woohoo! ${winningPlayer.token}: ${winningPlayer.name}, you won!`);
+      console.log(`Woohoo! ${winningPlayer.name} (${winningPlayer.token}), you won!`);
     } else if (this.makeMove.isADraw) {
       console.log('It\'s a tie!');
     }
